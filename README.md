@@ -65,8 +65,10 @@ Quando uma expressão é inserida no prompt, ela é avaliada e o resultado da ex
 > print(x)  # explicit printing
 [1] 5
 ```
-* O [1] mostrado no output indica que x é um **vetor** e 5 é o seu primeiro elemento.  
-Quando um vetor no R é printado você irá notar que um *index* para o vetor é printado em parêntesis [] ao lado.  
+O [1] mostrado no output indica que x é um **vetor** e 5 é o seu primeiro elemento.
+
+Quando um vetor no R é printado você irá notar que um *index* para o vetor é printado em parêntesis [] ao lado.
+
 Por exemplo, essa sequência de inteiros de tamanho (*length*) 20:
 ```R
 > x <- 10:30
@@ -76,19 +78,21 @@ Por exemplo, essa sequência de inteiros de tamanho (*length*) 20:
 [17] 26 27 28 29 30
 ```
 Os números em parêntesis não fazem parte do vetor em si, eles são apenas parte do output printado.
+
 * Observe que o operador **:** é usado para criar uma sequência de inteiros.
 
 ## R Objects
 R têm 5 classes básicas ou "atômicas" de objetos.
-* caracteres  # character (chr)
-* numérico (números reais)  # numeric (num)
-* inteiro  # integer (int)
-* complexo  # complex (cplx)
-* lógico  # logical (TRUE/FALSE)
+* caracteres (chr)
+* numérico (números reais) (num)
+* inteiro (int)
+* complexo (cplx)
+* lógico (TRUE/FALSE)
 
 *O tipo mais básico de um objeto no R é um vetor.*
 
-Vetores vazios podem ser criados com a função *vector()*.  
+Vetores vazios podem ser criados com a função *vector()*.
+
 Um vetor só pode conter objetos de mesma classe. Mas há uma excessão, que é uma lista (*list*).  
 Uma lista é representada como um vetor mas pode conter objetos de diferentes classes. De fato, geralmente é esse o motivo de usarmos elas.
 
@@ -112,7 +116,7 @@ NaN pode ser pensado também como um valor que está ausente.
 ## Atributos
 Objetos no R podem ter atributos, que são como metadados do objeto. Eles ajudam a descrever o objeto.
 
-Por exemplo, nomes de colunas em um data frame nos ajuda a dizer que tipo de dado está armazenado em cada uma das colunas.
+Por exemplo, nomes de colunas em um *data frame* nos ajuda a dizer que tipo de dado está armazenado em cada uma das colunas.
 
 Alguns exemplos de atributos de objetos no R são:
 * names, dimnames
@@ -123,7 +127,7 @@ Alguns exemplos de atributos de objetos no R são:
 atributos de um objeto podem ser acessados usando a função *attributes()*.
 
 ## Criando vetores
-A função *c()* pode ser usada para criar vetores de objetos concatenando coisas juntas.
+A função **c()** pode ser usada para criar vetores de objetos concatenando coisas juntas.
 ```R
 > x <- c(0.5, 0.6)       # numeric
 > x <- c(TRUE, FALSE)    # logical
@@ -133,19 +137,19 @@ A função *c()* pode ser usada para criar vetores de objetos concatenando coisa
 > x <- c(1+0i, 2+4i)     # complex
 ```
 
-Você também pode usar a função *vector()* para criar vetores.
+Você também pode usar a função **vector()** para criar vetores.
 ```R
-x <- vector("numeric", length=10)
-x
+> x <- vector("numeric", length=10)
+> x
 [1] 0 0 0 0 0 0 0 0 0 0
 ```
 
-## Valores ausentes
+## Objetos ausentes
 existem ocasiões aonde classes diferentes de objetos no R ficam misturadas.
 ```R
-y <- c(1.7, "a")   # character
-y <- c(TRUE, 2)    # numeric
-y <- c("a", TRUE)  # character
+> y <- c(1.7, "a")   # character
+> y <- c(TRUE, 2)    # numeric
+> y <- c("a", TRUE)  # character
 ```
 
 Em cada caso acima, nós estamos misturando objetos de duas classes diferentes em um vetor.  
@@ -161,9 +165,9 @@ Vão ter vezes em que isso faz exatamente o que você queria e... às vezes não
 Por exemplo, ao combinar um objeto numérico com um objeto de caractere isso irá criar um vetor de caractere, já que números podem ser mais facilmente representados como strings.
 
 ## Conversão explícita
-Objetos podem ser explicitamente convertidos de uma classe para outra usando a função *as.*, se possível.
+Objetos podem ser explicitamente convertidos de uma classe para outra usando a função **as.**, se possível.
 ```R
-x <- 0:6
+> x <- 0:6
 > class(x)
 [1] "integer"
 > as.numeric(x)
@@ -187,3 +191,53 @@ Warning: NAs introduced by coercion
 ```
 
 ## Matrizes
+Matrizes são vetores com um atributo de **dimensão**. O atributo de dimensão é ele próprio um vetor de inteiros de comprimento 2 (número de linhas, número de colunas).
+```R
+> m <- matrix(nrow=2, ncol=3)
+> m
+      [,1] [,2] [,3]
+[1,]    NA   NA   NA
+[2,]    NA   NA   NA
+> dim(m)
+[1] 2 3
+> attributes(m)
+$dim
+[1] 2 3
+```
+Matrizes são construídas em relação à coluna, então as entradas podem ser pensadas como começando do canto superior esquerdo e correndo para baixo na coluna.
+```R
+> m <- matrix(1:6, nrow=2, ncol=3)
+> m
+      [,1] [,2] [,3]
+[1,]     1    3    5
+[2,]     2    4    6
+```
+Matrizes também podem ser criadas diretamente através de vetores adicionando um atributo de dimensão.
+```R
+> m <- 1:10
+> m
+[1] 1 2 3 4 5 6 7 8 9 10
+> dim(m)
+NULL
+> dim(m) <- c(2, 5)
+> m
+      [,1] [,2] [,3] [,4] [,5]
+[1,]     1    3    5    7    9
+[2,]     2    4    6    8   10
+```
+Matrizes podem ser criadas por meio da união de colunas ou da união de linhas com as funções **cbind()** e **rbind()**.
+```R
+> x <- 1:3
+> y <- 10:12
+> cbind(x, y)
+      [,1] [,2]
+[1,]     1   10
+[2,]     2   11
+[3,]     3   12
+> rbind(x, y)
+      [,1] [,2] [,3]
+[1,]     1    2    3
+[2,]    10   11   12
+```
+
+## Listas
